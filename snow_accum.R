@@ -5,7 +5,6 @@ library(gt)
 library(gtExtras)
 library(scales)
 library(plotly)
-setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_snow_data")
 
 pittsburgh <- read_csv("pit.csv") %>% 
   rename_all(tolower) %>% 
