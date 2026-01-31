@@ -188,12 +188,13 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh — {highlight_year}"),
-    subtitle = "Blue line in 2026 vs. historical 10–90%-tile(red) and max & min range (gray)",
+    title = glue::glue("Daily Minimum Temperature in Pittsburgh: 1950 - {highlight_year}"),
+    subtitle = "**<span style='color:dodgerblue'>Blue line in 2026**</span> vs. historical 10–90%-tile(red) and max & min range (gray)",
     caption = "source: NOAA, by Takayuki Tamura"
   ) +
   theme_bw(base_size = 13) +
   theme(
+    plot.subtitle = element_markdown(size = 16),
     panel.grid.major = element_line(linewidth = 0.2),
     panel.grid.minor = element_line(linewidth = 0.1)
   )
@@ -253,3 +254,6 @@ tmax_ds %>%
   theme(
     axis.text.x = element_text(angle = 45, vjust = 0.5)
   )
+
+
+
