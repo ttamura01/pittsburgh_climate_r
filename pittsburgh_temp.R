@@ -132,6 +132,20 @@ tmin_band <- tmin_ds %>%
     .groups = "drop"
   )
 
+# standard deviation
+tmin_st <- tmin_ds %>% 
+  group_by(doy) %>% 
+  summarise(
+    tmin_mean = mean(tmin, na.rm = T),
+    tmin_median = median(tmin, na.rm = T),
+    tmin_sd = sd(tmin, na.rm = T),
+    "mean+sd" = tmin_mean + tmin_sd,
+    "mean+2sd" = tmin_mean + 2*tmin_sd,
+    "mean-sd" = tmin_mean - tmin_sd,
+    "mean-2*sd" = tmin_mean - 2*tmin_sd,
+    .groups = "drop"
+  )
+
 # plot
 tmin_ds %>%
   # filter(year == highlight_year) %>%
@@ -165,7 +179,7 @@ tmin_ds %>%
     data = tmin_ds %>% filter(year == highlight_year),
     aes(x = doy, y = tmin),
     color = "dodgerblue",
-    linewidth = 1.5
+    linewidth = 1.0
   ) +
   scale_x_continuous(
     breaks = yday(ymd(paste0("2001-", c("01-01","03-01","05-01","07-01","09-01","11-01")))),
@@ -183,8 +197,6 @@ tmin_ds %>%
     panel.grid.major = element_line(linewidth = 0.2),
     panel.grid.minor = element_line(linewidth = 0.1)
   )
-
-
 
 
 tmin_ds$period <- cut(tmin_ds$year,
