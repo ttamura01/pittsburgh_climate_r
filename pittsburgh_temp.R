@@ -3,19 +3,19 @@ library(lubridate)
 library(glue)
 library(ggtext)
 
-setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_snow_data")
+setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 
 # -----------------------------
 # 1) Read data
 # -----------------------------
 
-# pit <- read_csv("/Users/takayukitamura/Desktop/4209937.csv")
-# 
-# updates <- read_csv("/Users/takayukitamura/Desktop/4215227.csv") %>%
-#   filter(DATE >= "2026-01-19")
-# 
+# pit <- read_csv("pit.csv")
+# # 
+# updates <- read_csv("/Users/takayukitamura/Desktop/4216292.csv") %>%
+#   filter(DATE >= "2026-01-26")
+# # 
 # pit <- rbind(pit, updates)
-# 
+# # 
 # write_csv(pit, "pit.csv")
 
 pittsburgh <- read_csv("pit.csv") %>% 
