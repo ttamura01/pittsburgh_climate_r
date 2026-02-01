@@ -210,7 +210,8 @@ tmin_ds %>%
     panel.grid.minor = element_line(linewidth = 0.1)
   )
 
-
+ggsave("pittsburgh_tmin.png", width = 8.5, height = 7)
+       
 tmin_ds$period <- cut(tmin_ds$year,
                       breaks = c(1949, 1959, 1969, 1979, 1989, 1999, 2009, 2019, 2027),
                       labels = c("1950-1959", "1960-1969", "1970-1979", "1980-1989", "1990-1999", "2000-2009", "2010-2019", "2020-2026"))
