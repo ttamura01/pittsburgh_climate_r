@@ -181,6 +181,16 @@ tmin_ds %>%
     color = "dodgerblue",
     linewidth = 1.0
   ) +
+  annotate(geom = "point",
+           x = 31, y = -10,
+           shape = 8,
+           color = "dodgerblue") +
+  annotate(geom = "text",
+           x = 37, y = -10,
+           label = "-10\u00B0F",
+           color = "dodgerblue",
+           fontface = "bold",
+           hjust = 0) +
   scale_x_continuous(
     breaks = yday(ymd(paste0("2001-", c("01-01","03-01","05-01","07-01","09-01","11-01")))),
     labels = c("Jan","Mar","May","Jul","Sep","Nov")
