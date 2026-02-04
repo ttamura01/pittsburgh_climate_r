@@ -11,9 +11,9 @@ setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 
 # pit <- read_csv("pit.csv")
 # # 
-# updates <- read_csv("/Users/takayukitamura/Desktop/4217702.csv") %>%
-#   select(-SNWD) %>% 
-#   filter(DATE >= "2026-01-28")
+# updates <- read_csv("/Users/takayukitamura/Desktop/4219905.csv") %>%
+  # select(-SNWD) %>%
+  # filter(DATE >= "2026-01-30")
 # # 
 # pit <- rbind(pit, updates)
 # # 
@@ -183,12 +183,13 @@ tmin_ds %>%
     linewidth = 1.0
   ) +
   annotate(geom = "point",
-           x = 31, y = -10,
+           x = 31, y = -11,
+           size = 4,
            shape = 8,
            color = "dodgerblue") +
   annotate(geom = "text",
            x = 37, y = -10,
-           label = "-10\u00B0F\n(Jan-31, 2026)",
+           label = "-11\u00B0F\n(Jan-31, 2026)",
            color = "dodgerblue",
            fontface = "bold",
            hjust = 0,
