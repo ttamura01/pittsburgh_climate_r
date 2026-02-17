@@ -3,7 +3,7 @@ library(lubridate)
 library(glue)
 library(ggtext)
 
-setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_snow_data")
+setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 
 # -----------------------------
 # 1) Read data

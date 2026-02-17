@@ -1,31 +1,34 @@
+---
+title: "intro"
+format: html
+editor: visual
+---
+
+# Pittsburgh recorded historical low temperatures and snow in 2026
+
+On January 31, Pittsburgh recorded **minimum temperatures near –10°F** — colder than **Nuuk**, Greenland, on the same day.
+
+Some meteorologists point to the **Arctic Oscillation** — a large-scale atmospheric pattern that occasionally allows polar air to plunge south into North America — as a contributing factor.
+
+![Source: Axioms Pittsburgh](images/Screenshot%202026-02-11%20at%209.22.09%20AM.png)
+
+![Images above from National Geographic Magazine, March 2000; Sources: Doug Martinson, Wieslaw Maslowski, David Thompson, and John M. Wallace; Art by Alan Daniels](images/Screenshot%202026-02-11%20at%209.26.05%20AM.png)
+
+# Chart: Daily Minimum Temperatures in Pittsburgh — 76-Year Historical Distribution
+
+```{r}
 library(tidyverse)
 library(lubridate)
 library(glue)
 library(ggtext)
-library(gt)
-library(gtExtras)
 
-setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
-
-# -----------------------------
-# 1) Read data
-# -----------------------------
-
-pit <- read_csv("pit.csv")
-# # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4232632.csv") %>%
-# select(-SNWD) %>%
-filter(DATE >= "2026-02-09")
-# # 
-pit <- rbind(pit, updates)
-# # 
-write_csv(pit, "pit.csv")
-
+# data downloaded from NOAA's Climate Data Online(CDO)
 pittsburgh <- read_csv("pit.csv") %>% 
   rename_all(tolower)
 
 highlight_year <- 2026
 
+# prepare data
 tmin_ds <- pittsburgh %>% 
   mutate(date = ymd(date)) %>%
   select(date, tmin) %>%
@@ -113,15 +116,15 @@ tmin_ds %>%
   theme_minimal(base_size = 13)
 
 # prep data
-tmin_ds <- pittsburgh %>% 
-  mutate(date = ymd(date)) %>%
-  select(date, tmin) %>%
-  drop_na(date, tmin) %>% 
-  mutate(
-    year = year(date),
-    doy = yday(date)
-  ) %>% 
-  filter(!(month(date) == 2 & day(date) == 29))
+# tmin_ds <- pittsburgh %>% 
+#   mutate(date = ymd(date)) %>%
+#   select(date, tmin) %>%
+#   drop_na(date, tmin) %>% 
+#   mutate(
+#     year = year(date),
+#     doy = yday(date)
+#   ) %>% 
+#   filter(!(month(date) == 2 & day(date) == 29))
 
 # historical band by day-of-year
 tmin_band <- tmin_ds %>% 
@@ -215,61 +218,5 @@ tmin_ds %>%
   )
 
 ggsave("pittsburgh_tmin.png", width = 8.5, height = 7)
-       
-tmin_ds$period <- cut(tmin_ds$year,
-                      breaks = c(1949, 1959, 1969, 1979, 1989, 1999, 2009, 2019, 2027),
-                      labels = c("1950-1959", "1960-1969", "1970-1979", "1980-1989", "1990-1999", "2000-2009", "2010-2019", "2020-2026"))
 
-tmin_ds %>% 
-  group_by(period) %>% 
-  mutate(mean_tmin = mean(tmin, na_rm = T)) %>% 
-  slice_head(n = 1)
-
-tmin_ds %>% 
-  drop_na(period) %>%
-  ggplot(aes(x = period, y = tmin, fill = period)) +
-  geom_boxplot(show.legend = F) +
-  labs(x = NULL,
-       y = 'Daily Lowest Temperature (\u00B0 F)',
-       title = "Daily Lowest Temperature (TMIN) in Pittsburgh since 1950",
-       subtitle = "Average daily lowest temperature increased by 4.1\u00B0F to 44\u00B0F past 50 years",
-       caption = "source: NOAA, by Takayuki Tamura") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 45, vjust = 0.5)
-  )
-
-tmax_ds <- pittsburgh %>% 
-  mutate(date = ymd(date)) %>%
-  select(date, tmax) %>%
-  drop_na(date, tmax) %>% 
-  mutate(
-    year = year(date),
-    doy = yday(date)
-  ) %>% 
-  filter(!(month(date) == 2 & day(date) == 29))
-
-tmax_ds$period <- cut(tmax_ds$year,
-                      breaks = c(1949, 1959, 1969, 1979, 1989, 1999, 2009, 2019, 2027),
-                      labels = c("1950-1959", "1960-1969", "1970-1979", "1980-1989", "1990-1999", "2000-2009", "2010-2019", "2020-2026"))
-tmax_ds %>% 
-  group_by(period) %>% 
-  mutate(mean_tmax = mean(tmax, na_rm = T)) %>% 
-  slice_head(n = 1)
-  
-tmax_ds %>% 
-  drop_na(period) %>%
-  ggplot(aes(x = period, y = tmax, fill = period)) +
-  geom_boxplot(show.legend = F) +
-  labs(x = NULL,
-       y = 'Daily highest Temperature (\u00B0 F)',
-       title = "Daily Highest Temperature (TMAN) in Pittsburgh since 1950",
-       subtitle = "Average daily highest temperature increased by 3.1\u00B0F to 62.8\u00B0F past 50 years",
-       caption = "source: NOAA, by Takayuki Tamura") +
-  theme_bw() +
-  theme(
-    axis.text.x = element_text(angle = 45, vjust = 0.5)
-  )
-
-
-
+```
