@@ -80,6 +80,15 @@ tmin_band <- tmin_ds %>%
     .groups = "drop"
   )
 
+# tmin_band <- tmin_ds %>%
+#   group_by(doy) %>%
+#   summarise(
+#     "mean-2sd" = mean(tmin) - 2*sd(tmin),
+#     p50 = quantile(tmin, 0.50),
+#     "mean+2sd" = mean(tmin) + 2*sd(tmin),
+#     .groups = "drop"
+#   )
+
 tmin_ds %>%
   filter(year == highlight_year) %>%
   ggplot() +
