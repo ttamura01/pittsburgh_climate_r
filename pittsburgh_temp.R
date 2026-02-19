@@ -13,9 +13,9 @@ setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 
 pit <- read_csv("pit.csv")
 # # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4232632.csv") %>%
+updates <- read_csv("/Users/takayukitamura/Desktop/4235347.csv") %>%
 # select(-SNWD) %>%
-filter(DATE >= "2026-02-09")
+filter(DATE >= "2026-02-13")
 # # 
 pit <- rbind(pit, updates)
 # # 
@@ -204,7 +204,7 @@ tmin_ds %>%
            color = "dodgerblue",
            fontface = "bold",
            hjust = 0,
-           vjust =0.5) +
+           vjust =0.7) +
   scale_x_continuous(
     breaks = yday(ymd(paste0("2001-", c("01-01","03-01","05-01","07-01","09-01","11-01")))),
     labels = c("Jan","Mar","May","Jul","Sep","Nov")
