@@ -130,7 +130,7 @@ ggplot(snow_ds, aes(x = snow)) +
   ) +
   scale_y_continuous(labels = percent_format()) +
   labs(
-    title = "How Extreme Is This Week’s Pittsburgh Snowstorm?",
+    title = "How Extreme Is The Snowstorm on January 25, 2026?",
     subtitle = "Daily snowfall at Pittsburgh Airport since 1950 (snow > 0 days)",
     x = "Daily Snowfall (inches)",
     y = "Share of historical snow days",
@@ -143,7 +143,7 @@ ggplot(snow_ds, aes(x = snow)) +
     axis.title = element_text(size = 13)
   )
 
-
+ggsave("extrem_one_day_snow.png", width = 8, height = 5)
 
 pct <- ecdf(snow_ds$snow)(17)
 
