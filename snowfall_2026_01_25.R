@@ -123,7 +123,7 @@ ggplot(snow_ds, aes(x = snow)) +
     "text",
     x = 17,
     y = 0.15,
-    label = "Today\n~17 inches",
+    label = "(1/25/2026)\n~17 inches",
     color = "red",
     hjust = -0.1,
     size = 4
