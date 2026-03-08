@@ -13,9 +13,9 @@ setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 
 pit <- read_csv("pit.csv")
 # # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4247169.csv") %>%
+updates <- read_csv("/Users/takayukitamura/Desktop/4252326.csv") %>%
 # select(-SNWD) %>%
-filter(DATE >= "2026-02-26")
+filter(DATE >= "2026-03-01")
 # # 
 pit <- rbind(pit, updates)
 # # 
