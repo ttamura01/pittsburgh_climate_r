@@ -4,6 +4,7 @@ library(glue)
 library(ggtext)
 library(gt)
 library(gtExtras)
+library(patchwork)
 
 setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 
@@ -402,7 +403,7 @@ tmin_band_sd2 <- tmin_ds %>%
     .groups = "drop"
   )
 
-tmin_ds %>%
+a <- tmin_ds %>%
   # filter(year == highlight_year) %>%
   ggplot() +
   geom_ribbon(
@@ -472,3 +473,8 @@ tmin_ds %>%
     panel.grid.major = element_line(linewidth = 0.2),
     panel.grid.minor = element_line(linewidth = 0.1)
   )
+
+ggsave("daily_tmix.png", width = 8, height = 6)
+
+a + b
+b

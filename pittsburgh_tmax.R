@@ -303,7 +303,7 @@ tmax_band_sd2 <- tmax_ds %>%
     .groups = "drop"
   )
 
-tmax_ds %>%
+b <- tmax_ds %>%
   # filter(year == highlight_year) %>%
   ggplot() +
   geom_ribbon(
