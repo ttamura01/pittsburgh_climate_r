@@ -12,13 +12,25 @@ setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 # 1) Read data
 # -----------------------------
 
-pit <- read_csv("pit.csv")
+pit <- read_csv("pit.csv") %>% 
+  select(DATE, TMAX, TMIN, SNOW)
 # # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4252326.csv") %>%
-# select(-SNWD) %>%
-filter(DATE >= "2026-03-01")
+updates <- read_csv("/Users/takayukitamura/Desktop/4263141.csv") %>%
+  filter(DATE >= "2026-03-06") %>% 
+  select(DATE, TMAX, TMIN)
+
+# updates2 <- read_csv("/Users/takayukitamura/Desktop/4263147.csv") %>%
+#   filter(DATE >= "2026-03-06") %>% 
+#   select(DATE, SNOW)
+
+updates <- updates %>% 
+  left_join(., updates2, by = "DATE") %>% 
+  mutate(SNOW = if_else(is.na(SNOW), 0, SNOW)
+  )
+
 # # 
 pit <- rbind(pit, updates)
+pit <- pit[-27851,]
 # # 
 write_csv(pit, "pit.csv")
 
@@ -403,7 +415,7 @@ tmin_band_sd2 <- tmin_ds %>%
     .groups = "drop"
   )
 
-a <- tmin_ds %>%
+tmin_ds %>%
   # filter(year == highlight_year) %>%
   ggplot() +
   geom_ribbon(
@@ -455,6 +467,18 @@ a <- tmin_ds %>%
            fontface = "bold",
            hjust = 0,
            vjust =0.7) +
+  annotate(geom = "point",
+           x = 66, y = 59,
+           size = 4,
+           shape = 8,
+           color = "red") +
+  annotate(geom = "text",
+           x = 66*1.1, y = 60,
+           label = "+59\u00B0F\n(Feb-07, 2026)",
+           color = "red",
+           fontface = "bold",
+           hjust = 0,
+           vjust =0.7) +
   scale_x_continuous(
     breaks = yday(ymd(paste0("2001-", c("01-01","03-01","05-01","07-01","09-01","11-01")))),
     labels = c("Jan","Mar","May","Jul","Sep","Nov")
@@ -474,7 +498,6 @@ a <- tmin_ds %>%
     panel.grid.minor = element_line(linewidth = 0.1)
   )
 
-ggsave("daily_tmix.png", width = 8, height = 6)
+ggsave("daily_tmin.png", width = 8, height = 6)
 
-a + b
-b
+
