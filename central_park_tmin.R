@@ -12,35 +12,25 @@ setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 # 1) Read data
 # -----------------------------
 
-pit <- read_csv("pit.csv") %>% 
-  select(DATE, TMAX, TMIN, SNOW) %>% 
-  filter(DATE < "2026-03-06")
+central_park <- read_csv("/Users/takayukitamura/Desktop/4263344.csv") %>% 
+  select(date= DATE, tmin=TMIN)
 # # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4263821.csv") %>%
-  filter(DATE >= "2026-03-06") %>% 
-  select(DATE, TMAX, TMIN, SNOW)
+# updates <- read_csv("/Users/takayukitamura/Desktop/4263141.csv") %>%
+#   filter(DATE >= "2026-03-06") %>% 
+#   select(date = DATE, tmin = TMIN)
 
 # updates2 <- read_csv("/Users/takayukitamura/Desktop/4263147.csv") %>%
 #   filter(DATE >= "2026-03-06") %>% 
 #   select(DATE, SNOW)
 
-updates <- updates %>% 
-  left_join(., updates2, by = "DATE") %>% 
-  mutate(SNOW = if_else(is.na(SNOW), 0, SNOW)
-  )
-
-# # 
-pit <- rbind(pit, updates)
-# pit <- pit[-27851,]
-# # 
-write_csv(pit, "pit.csv")
-
-pittsburgh <- read_csv("pit.csv") %>% 
-  rename_all(tolower)
+# updates <- updates %>% 
+#   left_join(., updates2, by = "DATE") %>% 
+#   mutate(SNOW = if_else(is.na(SNOW), 0, SNOW)
+#   )
 
 highlight_year <- 2026
 
-tmin_ds <- pittsburgh %>% 
+tmin_ds <- central_park %>% 
   mutate(date = ymd(date)) %>%
   select(date, tmin) %>%
   drop_na(date, tmin) %>% 
@@ -61,7 +51,7 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = "Daily Minimum Temperature in Pittsburgh",
+    title = "Daily Minimum Temperature in Central Park, NY",
     subtitle = "Each line represents one year"
   ) +
   theme_minimal(base_size = 13)
@@ -79,7 +69,7 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh ({highlight_year} highlighted)")
+    title = glue::glue("Daily Minimum Temperature in Central Park, NY ({highlight_year} highlighted)")
   ) +
   theme_minimal(base_size = 13) +
   theme(legend.position = "none")
@@ -123,7 +113,7 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh — {highlight_year}"),
+    title = glue::glue("Daily Minimum Temperature in Cental Park, NY — {highlight_year}"),
     subtitle = "Blue line vs. historical 10–90% range (gray)"
   ) +
   theme_minimal(base_size = 13)
@@ -132,6 +122,8 @@ tmin_ds %>%
 tmin_band_sd <- tmin_ds %>%
   group_by(doy) %>%
   summarise(
+    mean = mean(tmin, na.rm = TRUE),
+    sd = sd(tmin, na.rm = TRUE),
     mean_m2sd = mean(tmin, na.rm = TRUE) - 2 * sd(tmin, na.rm = TRUE),
     p50       = quantile(tmin, 0.50, na.rm = TRUE),
     mean_p2sd = mean(tmin, na.rm = TRUE) + 2 * sd(tmin, na.rm = TRUE),
@@ -165,14 +157,13 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh — {highlight_year}"),
+    title = glue::glue("Daily Minimum Temperature in Central Park, NY — {highlight_year}"),
     subtitle = "Blue line vs. Historical Mean \u00B1 2 SD (gray)"
   ) +
   theme_minimal(base_size = 13)
 
-
 # prep data
-tmin_ds <- pittsburgh %>% 
+tmin_ds <- central_park %>% 
   mutate(date = ymd(date)) %>%
   select(date, tmin) %>%
   drop_na(date, tmin) %>% 
@@ -263,7 +254,7 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh: 1950 - {highlight_year}"),
+    title = glue::glue("Daily Minimum Temperature in Cental Park, NY: 1869 - {highlight_year}"),
     subtitle = "**<span style='color:dodgerblue'>Blue line in 2026**</span> vs. historical 10–90%-tile(red) and max & min range (gray)",
     caption = "source: NOAA, by Takayuki Tamura"
   ) +
@@ -273,8 +264,6 @@ tmin_ds %>%
     panel.grid.major = element_line(linewidth = 0.2),
     panel.grid.minor = element_line(linewidth = 0.1)
   )
-
-ggsave("pittsburgh_tmin.png", width = 8.5, height = 7)
 
 # chart with 2 standard diviation 
 
@@ -319,13 +308,13 @@ tmin_ds %>%
     linewidth = 1.0
   ) +
   annotate(geom = "point",
-           x = 31, y = -11,
+           x = 39, y = 3,
            size = 4,
            shape = 8,
            color = "dodgerblue") +
   annotate(geom = "text",
-           x = 37, y = -10,
-           label = "-11\u00B0F\n(Jan-31, 2026)",
+           x = 39 * 1.2, y = 3,
+           label = "3\u00B0F\n(Jan-31, 2026)",
            color = "dodgerblue",
            fontface = "bold",
            hjust = 0,
@@ -337,7 +326,7 @@ tmin_ds %>%
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh: 1950 - {highlight_year}"),
+    title = glue::glue("Daily Minimum Temperature in Central Park, NY: 1869 - {highlight_year}"),
     subtitle = "**<span style='color:dodgerblue'>Blue line in 2026**</span> vs. Historical Mean \u00B1 2 SD(red) and max & min range (gray)",
     caption = "source: NOAA, by Takayuki Tamura"
   ) +
@@ -348,7 +337,7 @@ tmin_ds %>%
     panel.grid.minor = element_line(linewidth = 0.1)
   )
 
-       
+
 tmin_ds$period <- cut(tmin_ds$year,
                       breaks = c(1949, 1959, 1969, 1979, 1989, 1999, 2009, 2019, 2027),
                       labels = c("1950-1959", "1960-1969", "1970-1979", "1980-1989", "1990-1999", "2000-2009", "2010-2019", "2020-2026"))
@@ -389,7 +378,7 @@ tmax_ds %>%
   group_by(period) %>% 
   mutate(mean_tmax = mean(tmax, na_rm = T)) %>% 
   slice_head(n = 1)
-  
+
 tmax_ds %>% 
   drop_na(period) %>%
   ggplot(aes(x = period, y = tmax, fill = period)) +
@@ -459,25 +448,25 @@ tmin_ds %>%
     linewidth = 1.0
   ) +
   annotate(geom = "point",
-           x = 31, y = -11,
+           x = 39, y = 3,
            size = 4,
            shape = 8,
            color = "dodgerblue") +
   annotate(geom = "text",
-           x = 37, y = -10,
-           label = "-11\u00B0F\n(Jan-31, 2026)",
+           x = 39 * 1.1, y = 3,
+           label = "+3\u00B0F\n(Feb-08, 2026)",
            color = "dodgerblue",
            fontface = "bold",
            hjust = 0,
            vjust =0.7) +
   annotate(geom = "point",
-           x = 66, y = 59,
+           x = 67, y = 50,
            size = 4,
            shape = 8,
            color = "red") +
   annotate(geom = "text",
-           x = 66*1.1, y = 60,
-           label = "+59\u00B0F\n(Mar-07, 2026)",
+           x = 67*1.1, y = 50,
+           label = "+50\u00B0F\n(Mar-08, 2026)",
            color = "red",
            fontface = "bold",
            hjust = 0,
@@ -486,11 +475,11 @@ tmin_ds %>%
     breaks = yday(ymd(paste0("2001-", c("01-01","03-01","05-01","07-01","09-01","11-01")))),
     labels = c("Jan","Mar","May","Jul","Sep","Nov")
   ) +
-  coord_cartesian(ylim = c(-25, 80), clip = "off", expand = FALSE) +
+  coord_cartesian(ylim = c(-5, NA), clip = "off", expand = FALSE) +
   labs(
     x = "Month",
     y = "Daily minimum temperature (°F)",
-    title = glue::glue("Daily Minimum Temperature in Pittsburgh: 1950 - {highlight_year}"),
+    title = glue::glue("Daily Minimum Temperature in Central Park: 1869 - {highlight_year}"),
     subtitle = "**<span style='color:dodgerblue'>Blue line in 2026**</span> vs. Historical Mean \u00B1 2 SD(pink) and Mean \u00B1 1 SD (gray)",
     caption = "source: NOAA, by Takayuki Tamura"
   ) +
@@ -501,6 +490,4 @@ tmin_ds %>%
     panel.grid.minor = element_line(linewidth = 0.1)
   )
 
-ggsave("daily_tmin.png", width = 8, height = 6)
-
-
+ggsave("central_park_daily_tmin.png", width = 8, height = 6)
