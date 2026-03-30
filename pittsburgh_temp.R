@@ -13,11 +13,11 @@ setwd("/Users/takayukitamura/Documents/R_Computing/pittsburgh_climate_r")
 # -----------------------------
 
 pit <- read_csv("pit.csv") %>% 
-  select(DATE, TMAX, TMIN, SNOW) %>% 
-  filter(DATE < "2026-03-06")
+  select(DATE, TMAX, TMIN, SNOW) #%>% 
+  # filter(DATE < "2026-03-07")
 # # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4263821.csv") %>%
-  filter(DATE >= "2026-03-06") %>% 
+updates <- read_csv("/Users/takayukitamura/Desktop/4272932.csv") %>%
+  filter(DATE >= "2026-03-07") %>% 
   select(DATE, TMAX, TMIN, SNOW)
 
 # updates2 <- read_csv("/Users/takayukitamura/Desktop/4263147.csv") %>%
