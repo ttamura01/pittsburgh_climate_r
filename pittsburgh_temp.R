@@ -16,8 +16,8 @@ pit <- read_csv("pit.csv") %>%
   select(DATE, TMAX, TMIN, SNOW) #%>% 
   # filter(DATE < "2026-03-07")
 # # 
-updates <- read_csv("/Users/takayukitamura/Desktop/4283278.csv") %>%
-  filter(DATE >= "2026-03-22") %>% 
+updates <- read_csv("/Users/takayukitamura/Desktop/4291358.csv") %>%
+  filter(DATE >= "2026-04-07") %>% 
   select(DATE, TMAX, TMIN, SNOW)
 
 # updates2 <- read_csv("/Users/takayukitamura/Desktop/4263147.csv") %>%
